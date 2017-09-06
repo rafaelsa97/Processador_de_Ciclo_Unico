@@ -1,0 +1,80 @@
+Universidade Federal de Minas Gerais
+Escola de Engenharia
+Departamento de Engenharia Eletrônica
+Professor Ricardo de Oliveira Duarte
+Disciplina: ELT005 - Sistemas, Processadores e Periféricos
+
+Roteiro para simulação em modo timing 
+
+Primeiro é necessário gerar uma descrição sintetizável de seu componente em VHDL para o dispositivo EP2C35F672C6 da família Cyclone II
+de FPGAs da Altera com a ferramenta Quartus II da Altera.
+Os arquivos gerados pós-síntese que serão de nosso interesse são: nome.vho e nome_vhd.sdo
+nome.vho é a descrição vhdl do componente pós-sintetizada para um dispositivo (part number) de uma família de FPGAs da Altera.
+nome_vhd.sdo é a descrição de valores com os tempos de propagação usado pela ferramenta de simulação para simular o componente
+contido em nome.vho 
+
+Dentro da ferramenta ModelSim:
+É necesssário compilar uma descrição simulável de um componente em VHDL para o dispositivo EP2C35F672C6 da família Cyclone II 
+e FPGAs da Altera com a ferramenta ModelSim-Altera (compilar o arquivo seu_componente.vho gerado pelo Quartus II).
+
+Se for fazer uma simulação funcional é necesssário compilar uma descrição testbench de um componente em VHDL com a ferramenta
+ModelSim-Altera (compilar o arquivo seu_componente_tb.vhd).
+
+Os seguintes passos dentro da ferramenta ModelSim são necessários para uma simulação funcional:
+1) Devemos criar um novo projeto.
+2) Devemos incluir arquivos vhdl no projeto para serem compilados e posteriormente simulados.
+3) Devemos compilar os arquivos vhdl na ordem dos componentes de base até o componente de mais alta hierarquia por último.
+Se houver um arquivo vhdl testbench este deverá ser o último arquivo na ordem de compilação.
+4) Em seguida devemos simular o arquivo testbench. Clique sobre o sinal de + na pasta work e selecione o testbench.
+5) Dispare o processo de simulação.
+6) Faça as alterações de radix necessárias nas entradas e saídas dos componentes a ser simulado.
+7) Realize o fit da forma de onda na janela de waveforms com o resultado da simulação.
+8) Exporte para um arquivo (.bmp) a imagem com a forma de onda com o resultado de simulação.
+
+Os seguintes passos dentro da ferramenta ModelSim são necessários para uma simulação temporal:
+1) Devemos criar um novo projeto.
+2) Devemos incluir o arquivo vho no projeto para serem compilado e posteriormente simulado.
+3) Devemos compilar o arquivo vho.
+4) Em seguida devemos simular o arquivo o arquivo vho. Clique sobre a pasta SDL e inclua o arquivo de extensão vhd.sdo
+que foi gerado pelo Quartus II com o arquivo vho correspondente.
+5) Dispare o processo de simulação.
+6) Faça as alterações de radix necessárias nas entradas e saídas dos componentes a ser simulado.
+7) Realize o fit da forma de onda na janela de waveforms com o resultado da simulação.
+8) Exporte para um arquivo (.bmp) a imagem com a forma de onda com o resultado de simulação.
+
+O nome do arquivo de comandos em TCL para criar um projeto no Quartus II, compilar a sua descrição vhdl e gerar uma descrição vhdl 
+(seu_componente.vdo) e informações de temporarização para simulação (seu_componente_vhd.sdo) no ModelSim com base no dispositivo
+EP2C35F672C6 da família Cyclone II de FPGAs da Altera:
+seu_componente_quartusII_temporal.tcl
+
+Para a execução dos comandos contidos no arquivo TCL chamado de seu_componente.tcl
+De dentro da janela transcript no ModelSim digite a linha abaixo:
+quartus_sh -t seu_componente_quartusII_temporal.tcl
+
+
+O nome do arquivo de comandos em TCL para criar um projeto no ModelSim-Altera, compilar o (seu_componente.vdo)
+e repassar informações de temporarização para simulação (seu_componente_vhd.sdo) no ModelSim com base no dispositivo EP2C35F672C6
+da família Cyclone II de FPGAs da Altera:
+seu_componente_modelsim_temporal.do
+
+Para a execução dos comandos contidos no arquivo TCL chamado de seu_componente_modelsim.do
+De dentro da janela Transcript no ModelSim digite a linha abaixo:
+ModelSim> do seu_componente_modelsim.do
+
+Os arquivos de comando TCL (arquivos com extensão .tcl).
+Tratam-se de arquivos de comandos que podem ser editados usando qualquer editor usado para programação.
+Para descrever o conteúdo destes arquivos usaremos uma linguagem de descrição de comandos conhecida por TCL.
+Estes arquivos são denominados script files ou batch files.
+Os arquivos de comandos em TCL tem extensão ".do" ou ".tcl"
+Tanto a ferramenta Quartus II quanto o ModelSim-Altera reconhecem comandos da linguagem TCL e executam os arquivos com comandos TCL
+por meio do menu "View->Utility Windows->Tcl Console" se for dentro do Quartus II ou
+na janela Trascript do ModelSim-Altera ou por qualquer interface de comandos do sistema operacional.
+
+Nos arquivos TCL podemos definir a criação de projetos, a compilação do projeto, o tipo da simulação (funcional ou temporal),
+os comando necessários para uma simulação, a configuração do ambiente da ferramenta para simulação,
+a geração de estímulos para as entradas do DUT (Device Under Test),
+a definição do formato de exibição dos sinais (binário, decimal, hexadecimal, simbólico, etc.),
+a definição dos arquivos a serem simulados, a definição de caminhos onde se encontram tais arquivos,
+incluir comandos de repetição e definir estruturas de dados e varíaveis de configuração do ambiente,
+comandos de execução de tarefas reconhecidos pela ferramenta, entre vários outros recursos que facilitam a automação do processo
+de compilação, simulação, exibição, gravação e verificação dos resultados simulados.
